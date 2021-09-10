@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using SeleniumBoilerplate.PageObjects;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
@@ -8,18 +10,22 @@ namespace SeleniumBoilerplate.Scenarios
     public class SimplePageTests : IClassFixture<StartupFixture>
     {
         StartupFixture fixture;
-
+        IWebDriver browser;
         public SimplePageTests(StartupFixture fixture)
         {
             this.fixture = fixture;
+            browser = fixture.InicializaDriver("chrome");
         }
 
         [Fact]
-        public void AbrirNavegador()
+        public void AbrirNavegadorEFazerValidacao()
         {
-            var browser = fixture.InicializaDriver("chrome");
+            #region Navega até a tela
+            browser.Navigate().GoToUrl("https://the-internet.herokuapp.com/dynamic_loading/1");
+            #endregion
 
-            browser.Navigate().GoToUrl("www.google.com");
+            #region Clica no elemento e faz a validação
+            #endregion
         }
     }
 }
