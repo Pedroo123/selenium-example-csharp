@@ -2,13 +2,32 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xunit;
 
 namespace SeleniumBoilerplate.PageObjects
 {
-    public static class SimplePage
+    public class SimplePage : IClassFixture<StartupFixture>
     {
-        public static readonly By botaoStart = By.CssSelector("#start > button");
+        IWebDriver driver;
+        StartupFixture fixture;
+        private By btnStart = By.CssSelector("#start > button");
+        private By lblFinish = By.CssSelector("#finish > h4");
 
-        public static readonly By finishedWord = By.CssSelector("#finish > h4");
+        public SimplePage(StartupFixture fixture)
+        {
+            this.fixture = fixture;
+            driver = fixture.InicializaDriver("");
+        }
+        /* 
+         * Valida a existencia do elemento lblFinish
+         * @return Boolean
+         */
+        public void validaCampos()
+        {
+            driver.FindElement(btnStart).Click();
+            driver.FindElement(lblFinish);
+
+            return;
+        }
     }
 }

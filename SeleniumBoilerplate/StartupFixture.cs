@@ -10,9 +10,8 @@ namespace SeleniumBoilerplate
     public class StartupFixture : IDisposable
     {
         IWebDriver _driver;
-        private char separador = Path.PathSeparator;
 
-        public IWebDriver InicializaDriver(string browser)
+        public IWebDriver InicializaDriver(string? browser)
         {
             switch (browser)
             {
@@ -23,7 +22,7 @@ namespace SeleniumBoilerplate
                     _driver = new FirefoxDriver();
                     break;
                 default:
-                    Console.WriteLine("Browser não é suportado!");
+                    _driver = new ChromeDriver(Path.Combine($"{Directory.GetCurrentDirectory()}\\Drivers"));
                     break;
             }
 
@@ -34,9 +33,14 @@ namespace SeleniumBoilerplate
         {
             Screenshot screenshot = (_driver as ITakesScreenshot).GetScreenshot();
 
-            string ScreenshotDir = Path.Combine($"{Directory.GetCurrentDirectory()}{separador}Evidencias");
+            string screenshotDir = Path.Combine($"{Directory.GetCurrentDirectory()}\\Evidencias");
 
-            screenshot.SaveAsFile($"{ScreenshotDir}{DateTime.Now}", ScreenshotImageFormat.Png);
+            if(!Directory.Exists(screenshotDir))
+            {
+                Directory.CreateDirectory(screenshotDir);
+            }
+
+            //screenshot.SaveAsFile($"{screenshotDir}{DateTime.Now}", ScreenshotImageFormat.Png);
 
             _driver.Quit();
         }
